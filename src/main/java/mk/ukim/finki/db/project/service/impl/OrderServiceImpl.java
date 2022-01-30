@@ -11,13 +11,8 @@ import mk.ukim.finki.db.project.reporitory.UserRepository;
 import mk.ukim.finki.db.project.service.OrderService;
 import mk.ukim.finki.db.project.service.ProductService;
 import mk.ukim.finki.db.project.views.FinishedOrdersView;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order addProductToShopping(String username, Integer productId) {
+    public void addProductToShopping(String username, Integer productId) {
         Order order = this.getActiveShoppingCart(username);
         Product product = this.productService.findById(productId);
 
@@ -65,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList()).size() > 0)
             throw new ProductAlreadyInShoppingCartException(productId, username);
         order.getProducts().add(product);
-        return this.orderRepository.save(order);
+        this.orderRepository.save(order);
     }
 
     @Override

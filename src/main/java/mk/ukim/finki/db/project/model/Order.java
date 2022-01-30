@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +19,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_naracka")
     private Integer id;
-
-//    @Column(name = "edinecna_cena")
-//    private Double cost;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

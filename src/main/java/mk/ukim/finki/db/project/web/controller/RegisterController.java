@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.project.web.controller;
 
+import mk.ukim.finki.db.project.model.Role;
 import mk.ukim.finki.db.project.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.db.project.model.exceptions.PasswordsDoNotMatchException;
 import mk.ukim.finki.db.project.service.UserService;
@@ -34,9 +35,10 @@ public class RegisterController {
                            @RequestParam String name,
                            @RequestParam String surname,
                            @RequestParam String address,
-                           @RequestParam String email) {
+                           @RequestParam String email,
+                           @RequestParam Role role) {
         try{
-            this.userService.register(username, password, repeatedPassword, name, surname, address, email);
+            this.userService.register(username, password, repeatedPassword, name, surname, address, email, role);
             return "redirect:/login";
         } catch (InvalidArgumentsException | PasswordsDoNotMatchException exception) {
             return "redirect:/register?error=" + exception.getMessage();

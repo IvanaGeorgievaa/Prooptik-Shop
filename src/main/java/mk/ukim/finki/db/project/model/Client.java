@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -40,13 +39,15 @@ public class Client{
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<Order>orders;
 
-    public Client(String username, String password, String name, String surname, String address, String email) {
+
+    public Client(String username, String password, String name, String surname, String address, String email, Role role) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.address = address;
         this.email=email;
+        this.role=role;
     }
 
 }
