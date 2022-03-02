@@ -1,10 +1,8 @@
 package mk.ukim.finki.db.project.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
@@ -27,6 +25,7 @@ public class Product {
     @Column(name = "opis_produkt")
     private String description;
 
+
     @Column(name = "slika_produkt")
     private String picture;
 
@@ -37,4 +36,11 @@ public class Product {
     @ManyToOne
     private Category category;
 
+    public Product(String name, Double price, String description, Integer quantity, Category category) {
+        this.name=name;
+        this.price=price;
+        this.description=description;
+        this.quantity=quantity;
+        this.category=category;
+    }
 }

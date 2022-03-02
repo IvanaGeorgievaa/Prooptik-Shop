@@ -1,5 +1,7 @@
 package mk.ukim.finki.db.project.service.impl;
 
+import mk.ukim.finki.db.project.model.Category;
+import mk.ukim.finki.db.project.model.exceptions.CategoryNotFoundException;
 import mk.ukim.finki.db.project.reporitory.CategoryRepository;
 import mk.ukim.finki.db.project.service.CategoryService;
 import mk.ukim.finki.db.project.views.CategoryView;
@@ -17,12 +19,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoryView> findById(Integer id) {
-        return this.categoryRepository.findById(id);
+    public Category findById(Integer id) {
+        return this.categoryRepository.findById(id).orElseThrow(()->new CategoryNotFoundException(id));
     }
 
     @Override
-    public List<CategoryView> findAll() {
+    public List<Category> findAll() {
         return this.categoryRepository.findAll();
     }
 }

@@ -57,9 +57,8 @@
 <div>
     <section class="jumbotron text-center">
         <div class="container">
-            <h3 class="jumbotron-heading">Finished orders for
-                <th:block th:if="${#request.getRemoteUser() != null}" th:text="${#request.getRemoteUser()}"></th:block>
-            </h3>
+            <h1>&hearts;</h1>
+            <h2 class="jumbotron-heading">MY WISHLIST</h2>
         </div>
     </section>
 
@@ -69,25 +68,35 @@
 
     <div class="container mb-4">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12" th:if="${products.size() > 0}">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col">Client Id</th>
-                            <th scope="col">Client Name</th>
-                            <th scope="col">Order Id</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Product Picture</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Price</th>
+                            <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="order : ${finished}" class="cart-item">
-                            <td th:text="${order.id_klient}"></td>
-                            <td th:text="${order.ime_klient}"></td>
-                            <td th:text="${order.id_naracka}"></td>
-                            <td th:text="${#dates.format(order.datum, 'dd MMM yyyy')}"></td>
-                            <td th:text="${order.status}"></td>
+                        <tr th:each="product : ${products}" class="cart-item">
+                            <td><img style="width: 130px; height: 130px" th:src="${product.picture}"/></td>
+                            <td th:text="${product.name}"></td>
+                            <td th:text="${product.description}"></td>
+                            <td th:text="${product.price}"></td>
+                            <td>
+                                <form th:action="@{'/orders/add-product/{id}' (id=${product.id})}"
+                                      th:method="POST">
+                                    </br>
+                                    </br>
+                                    <button type="submit" class="btn btn-sm btn-success cart-product"
+                                            style="margin-left: 100px;"><i
+                                            class="fa fa-trash">
+                                        ADD TO CART</i></button>
+                                </form>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

@@ -4,10 +4,40 @@
     <meta charset="UTF-8"/>
     <title>Products</title>
     <link href="https://fonts.gstatic.com" crossorigin="" rel="preconnect">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <style>
+        .page{
+            background-color: #dfe6e0;
+            padding: 2%;
+        }
+
+        .card-img-top {
+            width: 90%;
+            height: 225px
+        }
+
+        .view {
+            background-color: #dfe6e0;
+            padding: 10px;
+            margin: 20px
+        }
+
+        .card {
+            width: 95%;
+            padding: 0px;
+            margin-left: 2%
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -27,9 +57,20 @@
                     <a class="nav-link active" href="/products">Products</a>
                 </li>
                 <li class="nav-item m-auto">
+                    <a class="nav-link active" href="/wishlist">Wish List</a>
+                </li>
+                <li class="nav-item m-auto">
                     <a class="nav-link active" href="/orders/finished">Finished Orders</a>
                 </li>
             </ul>
+<!--            <form th:action="@{'/products'}" th:method="GET">-->
+<!--                <select name="categoryId">-->
+<!--                    <option th:each="cat : ${CategoryList}"-->
+<!--                            th:text="${cat.name}"-->
+<!--                            th:value="${cat.id}"></option>-->
+<!--                </select>-->
+<!--                <button type="submit">Filter by Category</button>-->
+<!--            </form>-->
             <form th:action="@{'/products'}" th:method="GET">
                 <select name="categoryId">
                     <option th:each="cat : ${CategoryList}"
@@ -38,6 +79,7 @@
                 </select>
                 <button type="submit">Filter by Category</button>
             </form>
+
 
             <form class="form-inline my-2 my-lg-0">
                 <li class="nav-item" sec:authorize="isAuthenticated()">
@@ -59,53 +101,121 @@
         </div>
     </div>
 </nav>
-<!--    <section class="jumbotron text-center">-->
-<!--        <div class="container">-->
-<!--            <h1 class="jumbotron-heading">ONLINE SHOP</h1>-->
-<!--            <h3 class="jumbotron-heading"> All products-->
-<!--            </h3>-->
-<!--        </div>-->
-<!--    </section>-->
-    <div th:if="${hasError}">
-        <div th:text="${error}" class="text-danger"></div>
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">ONLINE SHOP</h1>
+        <h3 class="jumbotron-heading"> All products
+        </h3>
     </div>
-    <div class="container mb-4">
-        <!--produkti-->
-        <div class="row">
-            <div class="col-12" th:if="${products.size() > 0}">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col">Product Picture</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Category</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="product : ${products}" class="product">
-                            <td><img style="width: 130px; height: 130px" th:src="@{'../images/'+${product.slika_produkt}}"/></td>
-                            <td th:text="${product.ime_produkt}"></td>
-                            <td th:text="${product.cena_produkt}"></td>
-                            <td th:text="${product.opis_produkt}"></td>
-                            <td th:text="${product.ime_kategorija}"></td>
-                            <td class="text-right">
-                                <form th:action="@{'/orders/add-product/{id}' (id=${product.id_produkt})}"
-                                      th:method="POST">
-                                    <button type="submit" class="btn btn-sm btn-success cart-product"><i class="fa fa-trash">
-                                        Order</i></button>
-                                </form>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+</section>
+<div th:if="${hasError}">
+    <div th:text="${error}" class="text-danger"></div>
+</div>
+<!--    <div class="container mb-4">-->
+<!--        &lt;!&ndash;produkti&ndash;&gt;-->
+<!--        <div class="row">-->
+<!--            <div class="col-12" th:if="${products.size() > 0}">-->
+<!--                <div class="table-responsive">-->
+<!--                    <table class="table table-striped">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">Product Picture</th>-->
+<!--                            <th scope="col">Product Name</th>-->
+<!--                            <th scope="col">Price</th>-->
+<!--                            <th scope="col">Description</th>-->
+<!--                            <th scope="col">Category</th>-->
+<!--                            <th></th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <tr th:each="product : ${products}" class="product">-->
+<!--                            <td><img style="width: 130px; height: 130px" th:src="${product.picture}"/></td>-->
+<!--                            <td th:text="${product.name}"></td>-->
+<!--                            <td th:text="${product.price}"></td>-->
+<!--                            <td th:text="${product.description}"></td>-->
+<!--                            <td th:text="${product.category.name}"></td>-->
+<!--                            <td class="text-right">-->
+<!--                                <form th:action="@{/products/{id}/delete(id=${product.id})}" th:method="delete">-->
+<!--                                    <button type="submit" class="btn btn-sm btn-danger" style="width: 60px;"><i class="fa fa-trash">Delete</i></button>-->
+<!--                                </form>-->
+<!--                                </br>-->
+<!--                                <a th:href="@{/products/{id}/edit(id=${product.id})}" class="btn btn-sm btn-info" style="width: 60px;"><i class="fa fa-trash">Edit</i></a>-->
+<!--                                <form th:action="@{'/orders/add-product/{id}' (id=${product.id})}"-->
+<!--                                      th:method="POST">-->
+<!--                                    </br>-->
+<!--                                    <button type="submit" class="btn btn-sm btn-success cart-product" style="width: 60px;"><i class="fa fa-trash">-->
+<!--                                        Order</i></button>-->
+<!--                                </form>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col mb-2">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-12  col-md-12">-->
+<!--                        <a href="/products/add-form" class="btn btn-block btn-light">Add new product</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<div class="container">
+    <!--For Row containing all card-->
+    <div class="row">
+        <!--Card 1-->
+        <div class="col-4" th:each="prod:${products}">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+                <!--Card image-->
+                <div class="view view-cascade overlay text-center"><img class="card-img-top" th:src="${prod.picture}" alt="">
+                </div>
+                <!--Card Body-->
+                <div class="card-body card-body-cascade text-center">
+                    <!--Card Title-->
+                    <h4 class="card-title" th:text="${prod.name}"><strong></strong></h4> <!-- Card Description-->
+                    <p class="card-text" th:text="${prod.description}"></p>
+                    <p class="price" th:text="${prod.price}"></p> <!-- Card Price-->
+
+                    <!--Card footer-->
+                    <div class="card-footer">
+                           <form th:action="@{/products/{id}/delete(id=${prod.id})}" th:method="delete">
+                               <button type="submit" class="btn btn-sm btn-danger" style="width: 60px;"><i
+                                       class="fa fa-trash">Delete</i></button>
+                           </form>
+
+                           <a th:href="@{/products/{id}/edit(id=${prod.id})}" class="btn btn-sm btn-info"
+                              style="width: 60px;"><i class="fa fa-trash">Edit</i></a>
+                        <form th:action="@{'/orders/add-product/{id}' (id=${prod.id})}"
+                              th:method="POST">
+                            </br>
+                            <button type="submit" class="btn btn-sm btn-success cart-product" style="width: 250px;"><i
+                                    class="fa fa-trash">
+                                ADD TO CART</i></button>
+                        </form>
+                        <form th:action="@{'/wishlist/{id}' (id=${prod.id})}"
+                              th:method="POST">
+                            </br>
+                            <button type="submit" style="background-color: white; color: red;border: none; font-size: 200%;">
+                                &#9829;
+                            </button>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="col mb-2">
+    <div class="row">
+        <div class="container">
+            <a href="/products/add-form" class="btn btn-block btn-light">Add new product</a>
+        </div>
+    </div>
+</div>
+
 <footer class="text-black-50 mt-xl-5">
     <div class="container">
         <div class="row">

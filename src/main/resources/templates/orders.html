@@ -27,6 +27,9 @@
                     <a class="nav-link active" href="/products">Products</a>
                 </li>
                 <li class="nav-item m-auto">
+                    <a class="nav-link active" href="/wishlist">Wish List</a>
+                </li>
+                <li class="nav-item m-auto">
                     <a class="nav-link active" href="/orders/finished">Finished Orders</a>
                 </li>
             </ul>
@@ -80,7 +83,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="product : ${products}" class="cart-item">
-                            <td><img style="width: 130px; height: 130px" th:src="@{'../images/'+${product.picture}}"/></td>
+                            <td><img style="width: 130px; height: 130px" th:src="${product.picture}"/></td>
                             <td th:text="${product.name}"></td>
                             <td th:text="${product.description}"></td>
                             <td th:text="${product.price}"></td>
