@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.project.web.controller;
 
-import mk.ukim.finki.db.project.model.Role;
+import mk.ukim.finki.db.project.model.enumerations.Role;
 import mk.ukim.finki.db.project.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.db.project.model.exceptions.PasswordsDoNotMatchException;
 import mk.ukim.finki.db.project.service.UserService;

@@ -2,10 +2,9 @@ package mk.ukim.finki.db.project.web.controller;
 
 import mk.ukim.finki.db.project.model.Category;
 import mk.ukim.finki.db.project.model.Product;
+import mk.ukim.finki.db.project.reporitory.ProductRepository;
 import mk.ukim.finki.db.project.service.CategoryService;
 import mk.ukim.finki.db.project.service.ProductService;
-import mk.ukim.finki.db.project.views.CategoryView;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,23 +16,25 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = {"/", "/products"})
+@RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final ProductRepository productRepository;
 
-    public ProductController(ProductService productService, CategoryService categoryService) {
+    public ProductController(ProductService productService, CategoryService categoryService, ProductRepository productRepository) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.productRepository = productRepository;
     }
 
     @GetMapping
-    public String getProductPage(@RequestParam(required = false) String error,
+    public String getProductPage(@RequestParam(required = false) String message,
                                  @RequestParam(required = false) Integer categoryId,
                                  Model model) {
-        if (error != null && !error.isEmpty()) {
+        if (message != null && !message.isEmpty()) {
             model.addAttribute("hasError", true);
-            model.addAttribute("error", error);
+            model.addAttribute("message", message);
         } else if (categoryId != null) {
             model.addAttribute("products", productService.findAllByCategory(categoryId));
         } else {
@@ -41,6 +42,14 @@ public class ProductController {
         }
         model.addAttribute("CategoryList", categoryService.findAll());
         return "products";
+    }
+    @GetMapping("/displayChart")
+    public String pieChart(Model model) {
+        model.addAttribute("eyeglasses", (long) this.productRepository.findAllByCategory_Id(1).size());
+        model.addAttribute("sunglasses", (long) this.productRepository.findAllByCategory_Id(2).size());
+        model.addAttribute("kidsCollection", (long) this.productRepository.findAllByCategory_Id(3).size());
+        model.addAttribute("accessories", (long) this.productRepository.findAllByCategory_Id(4).size());
+        return "Chart";
     }
 
     @GetMapping("/add-form")

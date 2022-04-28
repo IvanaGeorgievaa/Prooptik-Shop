@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mk.ukim.finki.db.project.model.OrderStatus;
+import mk.ukim.finki.db.project.model.enumerations.OrderStatus;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;

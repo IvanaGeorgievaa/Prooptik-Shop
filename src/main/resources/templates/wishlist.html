@@ -2,17 +2,34 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Orders</title>
+    <title>WishList</title>
     <link href="https://fonts.gstatic.com" crossorigin="" rel="preconnect">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/home">ONLINE SHOP</a>
+        <a class="navbar-brand" href="/home">PROOPTIK SHOP</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
                 aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -32,56 +49,94 @@
                 <li class="nav-item m-auto">
                     <a class="nav-link active" href="/orders/finished">Finished Orders</a>
                 </li>
+                <li class="nav-item m-auto">
+                    <a class="nav-link active" href="/appointments" title="View Appointments">
+                        <i style='font-size:24px' class='far'>&#xf274;</i>
+                    </a>
+                </li>
+                <li class="nav-item m-auto" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link active fa fa-bar-chart" style="font-size: 24px" href="/products/displayChart" title="View Chart for Categories">
+                    </a>
+                </li>
             </ul>
 
             <form class="form-inline my-2 my-lg-0">
-                <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" href="#">
-                        <th:block th:if="${#request.getRemoteUser() != null}"
-                                  th:text="${#request.getRemoteUser()}"></th:block>
-                    </a>
-                </li>
-                <a class="btn btn-success btn-sm ml-3" href="/orders">
-                    <i class="fa fa-shopping-cart"></i> Cart
+                <a class="btn btn-success ml-3" href="/orders" data-bs-toggle="popover" title="View Cart Items">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
                 </a>
-                <a class="btn btn-light btn-sm ml-3" href="/login">
-                    <i class="fa fa-shopping-cart"></i> Login
+                <a class="btn btn-light btn-sm ml-3" href="/login" style="width: 70px">
+                    Login
                 </a>
-                <a class="btn btn-light btn-sm ml-3" href="/logout">
-                    <i class="fa fa-shopping-cart"></i> Logout
+                <a class="btn btn-light btn-sm ml-3" href="/logout" style="width: 70px">
+                    Logout
                 </a>
             </form>
         </div>
     </div>
 </nav>
 <div>
-    <section class="jumbotron text-center">
-        <div class="container">
-            <h1>&hearts;</h1>
-            <h2 class="jumbotron-heading">MY WISHLIST</h2>
-        </div>
-    </section>
 
-    <div th:if="${hasError}">
-        <h5 class="text-center text-danger" th:text="${error}"></h5>
+    <div th:if="${hasError}" class="container alert alert-warning alert-dismissible fade show" role="alert">
+        <h5 class="text-center" th:text="${error}"></h5>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 
-    <div class="container mb-4">
+    </br>
+    <div class="container-fluid w-75">
         <div class="row">
+            <div th:if="${products.size() == 0}">
+                <div class="container-fluid mt-100">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body cart">
+                                    <div class="col-sm-12 empty-wishlist-cls text-center"> <img src="https://img.icons8.com/nolan/344/wish-list.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+                                        <h3><strong>Your Wish List is Empty</strong></h3>
+                                        <h4>Add something to make me happy :)</h4> <a href="/products" class="btn btn-success cart-btn-transform m-3" data-abc="true">Continue Shopping</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-12" th:if="${products.size() > 0}">
+                <section class="jumbotron text-center">
+                    <div class="container">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                        </svg>
+                        <h3 class="jumbotron-heading display-6">MY WISHLIST</h3>
+                    </div>
+                </section>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col">Product Picture</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Price</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="product : ${products}" class="cart-item">
+                            <td>
+                            <form th:action="@{'/wishlist/remove-product/{id}' (id=${product.id})}" th:method="POST">
+                                <button type="submit" class="btn btn-outline-secondary mt-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </button>
+                            </form>
+                            </td>
                             <td><img style="width: 130px; height: 130px" th:src="${product.picture}"/></td>
                             <td th:text="${product.name}"></td>
                             <td th:text="${product.description}"></td>
@@ -89,12 +144,8 @@
                             <td>
                                 <form th:action="@{'/orders/add-product/{id}' (id=${product.id})}"
                                       th:method="POST">
-                                    </br>
-                                    </br>
-                                    <button type="submit" class="btn btn-sm btn-success cart-product"
-                                            style="margin-left: 100px;"><i
-                                            class="fa fa-trash">
-                                        ADD TO CART</i></button>
+                                    <button type="submit" class="btn btn-success cart-product ml-2"><i
+                                            class="fa fa-shopping-cart"> Add</i></button>
                                 </form>
                             </td>
                         </tr>

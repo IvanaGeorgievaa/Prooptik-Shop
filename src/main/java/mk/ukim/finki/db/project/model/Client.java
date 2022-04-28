@@ -3,6 +3,7 @@ package mk.ukim.finki.db.project.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import mk.ukim.finki.db.project.model.enumerations.Role;
 
 import javax.persistence.*;
 import java.util.List;

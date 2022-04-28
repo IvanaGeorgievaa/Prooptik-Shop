@@ -2,17 +2,20 @@ package mk.ukim.finki.db.project.service.impl;
 
 import mk.ukim.finki.db.project.model.Client;
 import mk.ukim.finki.db.project.model.Order;
-import mk.ukim.finki.db.project.model.OrderStatus;
+import mk.ukim.finki.db.project.model.Transaction;
+import mk.ukim.finki.db.project.model.enumerations.OrderStatus;
 import mk.ukim.finki.db.project.model.Product;
 import mk.ukim.finki.db.project.model.exceptions.*;
 import mk.ukim.finki.db.project.reporitory.FinishedOrdersViewRepository;
 import mk.ukim.finki.db.project.reporitory.OrderRepository;
+import mk.ukim.finki.db.project.reporitory.TransactionRepository;
 import mk.ukim.finki.db.project.reporitory.UserRepository;
 import mk.ukim.finki.db.project.service.OrderService;
 import mk.ukim.finki.db.project.service.ProductService;
 import mk.ukim.finki.db.project.views.FinishedOrdersView;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +24,14 @@ public class OrderServiceImpl implements OrderService {
     private final UserRepository userRepository;
     private final ProductService productService;
     private final OrderRepository orderRepository;
+    private final TransactionRepository transactionRepository;
     private final FinishedOrdersViewRepository finishedOrdersViewRepository;
 
-    public OrderServiceImpl(UserRepository userRepository, ProductService productService, OrderRepository orderRepository, FinishedOrdersViewRepository finishedOrdersViewRepository) {
+    public OrderServiceImpl(UserRepository userRepository, ProductService productService, OrderRepository orderRepository, TransactionRepository transactionRepository, FinishedOrdersViewRepository finishedOrdersViewRepository) {
         this.userRepository = userRepository;
         this.productService = productService;
         this.orderRepository = orderRepository;
+        this.transactionRepository = transactionRepository;
         this.finishedOrdersViewRepository = finishedOrdersViewRepository;
     }
 
@@ -87,5 +92,24 @@ public class OrderServiceImpl implements OrderService {
     public List<FinishedOrdersView> listAllFinishedByClient(String username) {
         return this.finishedOrdersViewRepository.findAll()
                 .stream().filter(p->p.getUsername().equals(username)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Order findById(Integer id) {
+        return this.orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found!"));
+    }
+
+    @Override
+    @Transactional
+    public Transaction createTransaction(Integer orderId, String transactionHash, String fromAddress, String toAddress, String amount) {
+        Transaction transaction = new Transaction(
+                transactionHash,
+                this.findById(orderId),
+                toAddress,
+                fromAddress,
+                amount
+        );
+        return this.transactionRepository.save(transaction);
     }
 }

@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.project.model;
 
 import lombok.*;
+import mk.ukim.finki.db.project.model.enumerations.OrderStatus;
 
 import javax.persistence.*;
 import java.sql.Date;

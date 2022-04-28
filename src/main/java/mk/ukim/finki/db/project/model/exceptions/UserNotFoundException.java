@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class UserNotFoundException extends RuntimeException{
     public UserNotFoundException(String username){
-        super(String.format("Shopping cart with id %s was not found", username));
+        super(String.format("User with id %s was not found", username));
     }
 }
 

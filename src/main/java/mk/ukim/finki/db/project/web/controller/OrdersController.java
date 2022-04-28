@@ -2,9 +2,14 @@ package mk.ukim.finki.db.project.web.controller;
 
 import mk.ukim.finki.db.project.model.Client;
 import mk.ukim.finki.db.project.model.Order;
+import mk.ukim.finki.db.project.model.Product;
+import mk.ukim.finki.db.project.model.Transaction;
 import mk.ukim.finki.db.project.model.exceptions.UserNotFoundException;
 import mk.ukim.finki.db.project.reporitory.UserRepository;
 import mk.ukim.finki.db.project.service.OrderService;
+import mk.ukim.finki.db.project.utils.PriceToCryptoConverter;
+import mk.ukim.finki.db.project.web.controller.dto.TransactionRequestDto;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -54,11 +59,29 @@ public class OrdersController {
         return "redirect:/orders";
     }
     @PostMapping("/success")
-    public String getSuccessOrderPage(Authentication authentication){
+    public String createSuccessOrder(Authentication authentication){
         User client= (User) authentication.getPrincipal();
         Order order=this.orderService.checkoutShoppingCart(client.getUsername());
+        return "redirect:/orders/success/" + order.getId();
+    }
+
+    @GetMapping("/success/{orderId}")
+    public String getSuccessOrderPage(@PathVariable Integer orderId, Model model){
+        Order order = this.orderService.findById(orderId);
+        Double price = order.getProducts().stream().mapToDouble(Product::getPrice).sum();
+        model.addAttribute("price", price);
+        model.addAttribute( "ethPrice", PriceToCryptoConverter.denarToEthereum(price));
+        model.addAttribute( "gweiPrice", PriceToCryptoConverter.denarToGwei(price));
         return "SuccessOrderPage";
     }
+
+    @PostMapping("/{orderId}/transactions")
+    public String createTransaction(@PathVariable Integer orderId,
+                                    @RequestBody TransactionRequestDto request) {
+        Transaction transaction = orderService.createTransaction(orderId, request.transactionHash, request.fromAddress, request.toAddress, request.amount);
+        return "redirect:/products?message=SuccessfullyPaid";
+    }
+
 
     @GetMapping("/finished")
     public String getFinishedOrders(Authentication authentication, Model model){

@@ -2,7 +2,7 @@ package mk.ukim.finki.db.project.reporitory;
 
 import mk.ukim.finki.db.project.model.Client;
 import mk.ukim.finki.db.project.model.Order;
-import mk.ukim.finki.db.project.model.OrderStatus;
+import mk.ukim.finki.db.project.model.enumerations.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;

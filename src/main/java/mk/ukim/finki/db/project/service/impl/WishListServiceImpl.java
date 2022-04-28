@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.project.service.impl;
 
 import mk.ukim.finki.db.project.model.*;
+import mk.ukim.finki.db.project.model.enumerations.WishListStatus;
 import mk.ukim.finki.db.project.model.exceptions.*;
 import mk.ukim.finki.db.project.reporitory.UserRepository;
 import mk.ukim.finki.db.project.reporitory.WishListRepository;
@@ -54,5 +55,14 @@ public class WishListServiceImpl implements WishListService {
                     WishList wishList = new WishList(user);
                     return this.wishListRepository.save(wishList);
                 });
+    }
+
+    @Override
+    public WishList removeProductFromWishList(String userId, Integer productId) {
+        WishList wishList=this.getActiveWishList(userId);
+        wishList.setProducts(wishList.getProducts()
+                .stream().filter(product -> !product.getId().equals(productId))
+                .collect(Collectors.toList()));
+        return this.wishListRepository.save(wishList);
     }
 }

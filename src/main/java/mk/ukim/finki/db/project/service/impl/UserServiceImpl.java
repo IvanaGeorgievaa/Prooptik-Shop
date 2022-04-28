@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.project.service.impl;
 
 import mk.ukim.finki.db.project.model.Client;
-import mk.ukim.finki.db.project.model.Role;
+import mk.ukim.finki.db.project.model.enumerations.Role;
 import mk.ukim.finki.db.project.model.exceptions.*;
 import mk.ukim.finki.db.project.reporitory.UserRepository;
 import mk.ukim.finki.db.project.service.UserService;

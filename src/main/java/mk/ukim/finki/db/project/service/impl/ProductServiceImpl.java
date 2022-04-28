@@ -6,6 +6,8 @@ import mk.ukim.finki.db.project.model.exceptions.ProductNotFoundException;
 import mk.ukim.finki.db.project.reporitory.ProductRepository;
 import mk.ukim.finki.db.project.service.CategoryService;
 import mk.ukim.finki.db.project.service.ProductService;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

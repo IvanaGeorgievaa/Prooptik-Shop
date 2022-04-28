@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="ISO-8859-1" />
+    <title>Results</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+
+</head>
+<body>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" class="container">
+<script th:inline="javascript">
+    var numberOfEyeglasses = [[${eyeglasses}]];
+    var numberOfSunGlasses= [[${sunglasses}]];
+    var numberOfKidsCol= [[${kidsCollection}]];
+    var numberOfAccessories= [[${accessories}]];
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column',
+            verticalAlign: 'middle',
+            renderTo: 'container',
+            backgroundColor: {
+                linearGradient: [0, 500, 0, 0],
+                stops: [
+                    [0, 'rgb(100,96,96)'],
+                    [1, 'rgb(240, 240, 255)']
+                ]
+            }
+        },
+        title:{
+            text: 'Number of products by Category',
+            align: 'center'
+        },
+
+        xAxis: {
+            title: {
+                text: 'Category Name',
+                style: {
+                    color: 'white'
+                }
+            },
+            labels: {
+                style: {
+                    color: 'white'
+                }
+            },
+            name: 'Category',
+            categories: ['Sunglasses', 'EyeGlasses', 'Kids Collection', 'Accessories']
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Products',
+                style: {
+                    color: 'white'
+                }
+            }
+        },
+
+        series: [{
+            name: 'Categories',
+            color: '#d97f7f',
+            data: [{
+                name: 'Sunglasses',
+                color: '#d97f7f',
+                y: numberOfSunGlasses
+            }, {
+                name: 'EyeGlasses',
+                color: '#d97f7f',
+                y: numberOfEyeglasses
+            },{
+                name: 'Kids Collection',
+                color: '#d97f7f',
+                y: numberOfKidsCol
+            },{
+                name: 'Accessories',
+                color: '#d97f7f',
+                y: numberOfAccessories
+            },
+            ]
+        }]
+    });
+</script>
+</div>
+</body>
+</html>

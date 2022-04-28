@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.project.web.controller;
 
+import mk.ukim.finki.db.project.model.Order;
 import mk.ukim.finki.db.project.model.WishList;
 import mk.ukim.finki.db.project.service.WishListService;
 import org.springframework.security.core.Authentication;
@@ -38,6 +39,12 @@ public class WishListController {
         catch (RuntimeException ex){
             return "redirect:/wishlist?error=" + ex.getMessage();
         }
+        return "redirect:/wishlist";
+    }
+    @PostMapping("/remove-product/{id}")
+    public String removeProductToShoppingCart(@PathVariable Integer id, Authentication authentication) {
+        User client= (User) authentication.getPrincipal();
+        WishList wishList = this.wishListService.removeProductFromWishList(client.getUsername(), id);
         return "redirect:/wishlist";
     }
 
