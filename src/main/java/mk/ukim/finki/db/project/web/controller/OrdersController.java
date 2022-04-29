@@ -79,7 +79,7 @@ public class OrdersController {
     public String createTransaction(@PathVariable Integer orderId,
                                     @RequestBody TransactionRequestDto request) {
         Transaction transaction = orderService.createTransaction(orderId, request.transactionHash, request.fromAddress, request.toAddress, request.amount);
-        return "redirect:/products?message=SuccessfullyPaid";
+        return "redirect:/products?message=Successfully%20Paid";
     }
 
 
